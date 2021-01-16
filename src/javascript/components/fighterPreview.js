@@ -9,15 +9,57 @@ export function createFighterPreview(fighter, position) {
 
   // todo: show fighter info (image, name, health, etc.)
 
+  // image
+  function createFighterPreviewImage(fighter) {
+    const attributes = {
+      src: fighter.source,
+      title: fighter.name,
+      alt: fighter.name,
+    };
+
+    return createElement({
+      tagName: 'img',
+      className: 'fighter-preview___fighter',
+      attributes,
+    });
+  }
+
+  // name, health, etc.
+  function createFighterPreviewInfo(fighter) {
+    const element = createElement({
+      tagName: 'div',
+      className: 'fighter-preview___stats',
+    });
+
+    for (let key in fighter) {
+      const text = createElement({
+        tagName: 'p',
+        className: 'fighter-preview___text',
+      });
+
+      if (key !== 'source' && key !== '_id') {
+        text.innerText = `${key} - ${fighter[key]}`;
+        element.append(text);
+      }
+    }
+
+    return element;
+  }
+
+  if (fighter) {
+    fighterElement.append(createFighterPreviewImage(fighter));
+    fighterElement.append(createFighterPreviewInfo(fighter));
+  }
+
   return fighterElement;
 }
 
 export function createFighterImage(fighter) {
   const { source, name } = fighter;
-  const attributes = { 
-    src: source, 
+  const attributes = {
+    src: source,
     title: name,
-    alt: name 
+    alt: name,
   };
   const imgElement = createElement({
     tagName: 'img',
