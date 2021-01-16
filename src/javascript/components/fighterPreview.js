@@ -7,9 +7,6 @@ export function createFighterPreview(fighter, position) {
     className: `fighter-preview___root ${positionClassName}`,
   });
 
-  // todo: show fighter info (image, name, health, etc.)
-
-  // image
   function createFighterPreviewImage(fighter) {
     const attributes = {
       src: fighter.source,
@@ -24,7 +21,6 @@ export function createFighterPreview(fighter, position) {
     });
   }
 
-  // name, health, etc.
   function createFighterPreviewInfo(fighter) {
     const element = createElement({
       tagName: 'div',
