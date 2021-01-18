@@ -19,10 +19,11 @@ export async function fight(firstFighter, secondFighter) {
     let pressed = new Set();
     let firstHealth = firstFighter.health;
     let secondHealth = secondFighter.health;
-    let criticalFirstActive = true;
-    let criticalSecondActive = true;
+    let criticalFirstTime = Date.now();
+    let criticalSecondTime = Date.now();
 
     document.addEventListener('keydown', (e) => {
+      const now = Date.now();
       pressed.add(e.code);
 
       // first fighter block && atack
@@ -33,14 +34,14 @@ export async function fight(firstFighter, secondFighter) {
       }
 
       // critical first fighter
-      if (criticalFirstActive) {
+      if (now - criticalFirstTime > 10000) {
         if (
           pressed.has(PlayerOneCriticalHitCombination[0]) &&
           pressed.has(PlayerOneCriticalHitCombination[1]) &&
           pressed.has(PlayerOneCriticalHitCombination[2])
         ) {
           let damage = secondHealth;
-          criticalFirstActive = false;
+          criticalFirstTime = Date.now();
           secondHealth -= getDamage(firstFighter, { defense: 0 });
           secondHealth -= getDamage(firstFighter, { defense: 0 });
           damage -= secondHealth;
@@ -53,10 +54,6 @@ export async function fight(firstFighter, secondFighter) {
 
           indicatorBars[1].append(createTextBar(`Critical!!! ${Math.round(damage)}`));
           getStrike(1);
-
-          setTimeout(() => {
-            criticalFirstActive = true;
-          }, 10000);
         }
       }
 
@@ -100,14 +97,14 @@ export async function fight(firstFighter, secondFighter) {
       }
 
       // critical second fighter
-      if (criticalSecondActive) {
+      if (now - criticalSecondTime > 10000) {
         if (
           pressed.has(PlayerTwoCriticalHitCombination[0]) &&
           pressed.has(PlayerTwoCriticalHitCombination[1]) &&
           pressed.has(PlayerTwoCriticalHitCombination[2])
         ) {
           let damage = firstHealth;
-          criticalSecondActive = false;
+          criticalSecondTime = Date.now();
           firstHealth -= getDamage(secondFighter, { defense: 0 });
           firstHealth -= getDamage(secondFighter, { defense: 0 });
           damage -= firstHealth;
@@ -120,10 +117,6 @@ export async function fight(firstFighter, secondFighter) {
 
           indicatorBars[0].append(createTextBar(`Critical!!! ${Math.round(damage)}`));
           getStrike(0);
-
-          setTimeout(() => {
-            criticalSecondActive = true;
-          }, 10000);
         }
       }
 
