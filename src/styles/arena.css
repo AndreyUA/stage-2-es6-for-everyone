@@ -45,6 +45,10 @@
   align-items: center;
   flex-direction: column;
   margin: 0 30px;
+  max-height: 300px;
+
+  padding: 5px;
+  overflow: hidden;
 }
 
 .arena___health-indicator {
@@ -60,4 +64,11 @@
   height: 100%;
   width: 100%;
   background-color: #ebd759;
+}
+
+.arena___fighter-text {
+  text-align: left;
+  font-size: 30px;
+  font-weight: bold;
+  color: #ebd759;
 }
