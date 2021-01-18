@@ -52,6 +52,7 @@ export async function fight(firstFighter, secondFighter) {
           }
 
           indicatorBars[1].append(createTextBar(`Critical!!! ${Math.round(damage)}`));
+          getStrike(1);
 
           setTimeout(() => {
             criticalFirstActive = true;
@@ -72,6 +73,7 @@ export async function fight(firstFighter, secondFighter) {
         }
 
         indicatorBars[1].append(createTextBar(`${Math.round(damage)}`));
+        getStrike(1);
       }
 
       // fist fighter with block
@@ -87,6 +89,7 @@ export async function fight(firstFighter, secondFighter) {
         }
 
         indicatorBars[1].append(createTextBar(`Blocked! ${Math.round(damage)}`));
+        getStrike(1);
       }
 
       // second fighter block && atack
@@ -116,6 +119,7 @@ export async function fight(firstFighter, secondFighter) {
           }
 
           indicatorBars[0].append(createTextBar(`Critical!!! ${Math.round(damage)}`));
+          getStrike(0);
 
           setTimeout(() => {
             criticalSecondActive = true;
@@ -136,6 +140,7 @@ export async function fight(firstFighter, secondFighter) {
         }
 
         indicatorBars[0].append(createTextBar(`${Math.round(damage)}`));
+        getStrike(0);
       }
 
       // second fighter with block
@@ -151,6 +156,7 @@ export async function fight(firstFighter, secondFighter) {
         }
 
         indicatorBars[0].append(createTextBar(`Blocked! ${Math.round(damage)}`));
+        getStrike(0);
       }
 
       if (secondHealth <= 0) {
@@ -173,8 +179,17 @@ export function getDamage(attacker, defender) {
   if (damage < 0) {
     return 0;
   } else {
-    return getHitPower(attacker) - getBlockPower(defender);
+    return damage;
   }
+}
+
+function getStrike(num) {
+  const fighterPic = document.querySelectorAll('.fighter-preview___img');
+  fighterPic[num].style.opacity = '0.6';
+
+  setTimeout(() => {
+    fighterPic[num].style.opacity = '1';
+  }, 100);
 }
 
 function randomNum() {
