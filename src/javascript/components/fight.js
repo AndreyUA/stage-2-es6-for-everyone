@@ -46,8 +46,7 @@ export async function fight(firstFighter, secondFighter) {
           let damage = secondHealth;
           criticalFirstTime = Date.now();
           criticalFirstOnStart = false;
-          secondHealth -= getDamage(firstFighter, { defense: 0 });
-          secondHealth -= getDamage(firstFighter, { defense: 0 });
+          secondHealth -= getDamage(firstFighter, { defense: 0 }, true);
           damage -= secondHealth;
 
           if (secondHealth / secondFighter.health < 0) {
@@ -110,8 +109,7 @@ export async function fight(firstFighter, secondFighter) {
           let damage = firstHealth;
           criticalSecondTime = Date.now();
           criticalSecondOnStart = false;
-          firstHealth -= getDamage(secondFighter, { defense: 0 });
-          firstHealth -= getDamage(secondFighter, { defense: 0 });
+          firstHealth -= getDamage(secondFighter, { defense: 0 }, true);
           damage -= firstHealth;
 
           if (firstHealth / firstFighter.health < 0) {
@@ -172,15 +170,6 @@ export async function fight(firstFighter, secondFighter) {
   });
 }
 
-export function getDamage(attacker, defender) {
-  const damage = getHitPower(attacker) - getBlockPower(defender);
-  if (damage < 0) {
-    return 0;
-  } else {
-    return damage;
-  }
-}
-
 function getStrike(num) {
   const fighterPic = document.querySelectorAll('.fighter-preview___img');
   fighterPic[num].style.opacity = '0.6';
@@ -206,8 +195,21 @@ function createTextBar(text) {
   return element;
 }
 
-export function getHitPower(fighter) {
-  return fighter.attack * randomNum();
+export function getDamage(attacker, defender, crit = false) {
+  const damage = getHitPower(attacker, crit) - getBlockPower(defender);
+  if (damage < 0) {
+    return 0;
+  } else {
+    return damage;
+  }
+}
+
+export function getHitPower(fighter, crit) {
+  if (crit) {
+    return fighter.attack * 2;
+  } else {
+    return fighter.attack * randomNum();
+  }
 }
 
 export function getBlockPower(fighter) {
