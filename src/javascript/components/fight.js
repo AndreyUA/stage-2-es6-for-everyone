@@ -19,8 +19,11 @@ export async function fight(firstFighter, secondFighter) {
     let pressed = new Set();
     let firstHealth = firstFighter.health;
     let secondHealth = secondFighter.health;
+
     let criticalFirstTime = Date.now();
+    let criticalFirstOnStart = true;
     let criticalSecondTime = Date.now();
+    let criticalSecondOnStart = true;
 
     document.addEventListener('keydown', (e) => {
       const now = Date.now();
@@ -34,7 +37,7 @@ export async function fight(firstFighter, secondFighter) {
       }
 
       // critical first fighter
-      if (now - criticalFirstTime > 10000) {
+      if (now - criticalFirstTime > 10000 || criticalFirstOnStart) {
         if (
           pressed.has(PlayerOneCriticalHitCombination[0]) &&
           pressed.has(PlayerOneCriticalHitCombination[1]) &&
@@ -42,6 +45,7 @@ export async function fight(firstFighter, secondFighter) {
         ) {
           let damage = secondHealth;
           criticalFirstTime = Date.now();
+          criticalFirstOnStart = false;
           secondHealth -= getDamage(firstFighter, { defense: 0 });
           secondHealth -= getDamage(firstFighter, { defense: 0 });
           damage -= secondHealth;
@@ -97,7 +101,7 @@ export async function fight(firstFighter, secondFighter) {
       }
 
       // critical second fighter
-      if (now - criticalSecondTime > 10000) {
+      if (now - criticalSecondTime > 10000 || criticalSecondOnStart) {
         if (
           pressed.has(PlayerTwoCriticalHitCombination[0]) &&
           pressed.has(PlayerTwoCriticalHitCombination[1]) &&
@@ -105,6 +109,7 @@ export async function fight(firstFighter, secondFighter) {
         ) {
           let damage = firstHealth;
           criticalSecondTime = Date.now();
+          criticalSecondOnStart = false;
           firstHealth -= getDamage(secondFighter, { defense: 0 });
           firstHealth -= getDamage(secondFighter, { defense: 0 });
           damage -= firstHealth;
