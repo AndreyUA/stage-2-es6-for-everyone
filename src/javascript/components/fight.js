@@ -63,7 +63,7 @@ export async function fight(firstFighter, secondFighter) {
       // first fighter without block
       if (pressed.has(PlayerOneAttack) && !pressed.has(PlayerTwoBlock)) {
         let damage = secondHealth;
-        secondHealth -= getDamage(firstFighter, { defense: 0 });
+        secondHealth -= getDamage(firstFighter, secondFighter);
         damage -= secondHealth;
 
         if (secondHealth / secondFighter.health < 0) {
@@ -79,7 +79,7 @@ export async function fight(firstFighter, secondFighter) {
       // fist fighter with block
       if (pressed.has(PlayerOneAttack) && pressed.has(PlayerTwoBlock)) {
         let damage = secondHealth;
-        secondHealth -= getDamage(firstFighter, secondFighter);
+        secondHealth -= getDamage({ attack: 0 }, secondFighter);
         damage -= secondHealth;
 
         if (secondHealth / secondFighter.health < 0) {
@@ -130,7 +130,7 @@ export async function fight(firstFighter, secondFighter) {
       // second fighter without block
       if (pressed.has(PlayerTwoAttack) && !pressed.has(PlayerOneBlock)) {
         let damage = firstHealth;
-        firstHealth -= getDamage(secondFighter, { defense: 0 });
+        firstHealth -= getDamage(secondFighter, firstFighter);
         damage -= firstHealth;
 
         if (firstHealth / firstFighter.health < 0) {
@@ -146,7 +146,7 @@ export async function fight(firstFighter, secondFighter) {
       // second fighter with block
       if (pressed.has(PlayerTwoAttack) && pressed.has(PlayerOneBlock)) {
         let damage = firstHealth;
-        firstHealth -= getDamage(secondFighter, firstFighter);
+        firstHealth -= getDamage({ attack: 0 }, firstFighter);
         damage -= firstHealth;
 
         if (firstHealth / firstFighter.health < 0) {
